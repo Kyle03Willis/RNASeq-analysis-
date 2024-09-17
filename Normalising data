@@ -1,0 +1,7 @@
+dds <- estimateSizeFactors(dds)
+
+sizeFactors(dds)
+
+normalised_counts <- counts(dds, normalized=TRUE)
+
+write.table(normalised_counts, file="normalised_counts.txt", sep="\t", quote=F, col.names=NA)
