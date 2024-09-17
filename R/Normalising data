@@ -1,3 +1,6 @@
+#If dds data is used for visualisation before the deseq function is ran then normalisation fot he data is required. 
+#Once normalised the data is then saved to a table that can be recalled using the load function.
+
 dds <- estimateSizeFactors(dds)
 
 sizeFactors(dds)
