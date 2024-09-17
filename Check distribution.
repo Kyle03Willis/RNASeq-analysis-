@@ -1,0 +1,13 @@
+#This code will check the distribution of the count data. If the variance is greater than the mean, then negative binomial model is suitable. If the mean and variance are equal, then it will fit Poisson distribution.
+
+
+mean_counts <- apply(countData[, 3:5], 1, mean)
+variance_counts <- apply(countData[, 3:5], 1, var)
+df <- data.frame(mean_counts, variance_counts)
+
+ggplot(df) +
+  geom_point(aes(x=mean_counts, y=variance_counts)) + 
+  geom_line(aes(x=mean_counts, y=mean_counts, color="red")) +
+  scale_y_log10() +
+  scale_x_log10()
+
