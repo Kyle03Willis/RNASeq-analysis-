@@ -1,0 +1,16 @@
+#This code will create a PCA plot. Because this plot will use data before the deSeq function, normalisation of the data is required. Estimatesizefactors and rlog will do this. 
+#There is a faster alternative to rlog,vts. However, this will not work in the 3.2.2 version of R. There is an alterantive way to making a PCA plot but using ggplot gives greater freedom. 
+
+dds <- estimateSizeFactors(dds)
+
+rldData <- rlog(dds, blind=TRUE)
+pcaData <- plotPCA(rldData, intgroup=c("Treatment", "Cell.line"), returnData = TRUE)
+percentVar <- round(100 * attr(pcaData, "percentVar"))
+ggPCA <- ggplot(pcaData, aes(PC1, PC2, color=Treatment, shape=Cell.line)) +
+  geom_point(size=3) +
+  scale_color_manual(values = c("blue", "red", "green","purple"), labels = c("Hypoxia", "Hypoxia+PP242", "Normoxia", "Normoxia+PP242")) +
+  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+  ylab(paste0("PC2: ",percentVar[2],"% variance")) + 
+  ggtitle("PCA")+
+  coord_fixed()
+ggPCA
