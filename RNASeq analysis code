@@ -1,0 +1,35 @@
+# Load BiocManager for Bioconductor packages
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")
+}
+
+# List of required packages and their sources
+packages <- list(
+  DESeq2 = "Bioconductor",
+  ggplot2 = "CRAN",
+  readr = "CRAN"
+)
+
+install_if_missing <- function(pack, source) {
+  if (!requireNamespace(pack, quietly = TRUE)) {
+    if (source == "CRAN") {
+      install.packages(pack, dependencies = TRUE)
+    } else if (source == "Bioconductor") {
+      BiocManager::install(pack)
+    }
+  }
+}
+
+# Install missing packages
+lapply(names(packages), function(x) install_if_missing(x, packages[[x]]))
+
+#load librarys
+library(readr)
+library(ggplot2)
+
+
+setwd("~/RNASeq_data/GSE104193_MDA_MB_231_Hypoxia")
+
+countData <- read.csv("GSE104193_raw_counts_GRCh38.p13_NCBI.tsv", sep = "\t")
+
+colData <- readxl::read_excel("GSE103193_col_data.xlsx")
